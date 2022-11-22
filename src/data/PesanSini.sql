@@ -15,7 +15,7 @@ create table if not exists menu (
 
 create table if not exists pesanan (
     ID_pesanan INT PRIMARY KEY,
-    ID_menu INT PRIMARY KEY,
+    ID_menu INT NOT NULL,
     kuantitas_pesanan INT NOT NULL,
     harga_total_menu INT NOT NULL,
     FOREIGN KEY (ID_menu)
