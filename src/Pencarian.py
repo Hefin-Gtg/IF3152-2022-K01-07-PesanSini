@@ -96,10 +96,10 @@ class PencarianPage(tk.Frame):
         self.origin.Deskripsi()
         
     def searchmenu(self):
+        self.createScrollableCanvas()
         menu = self.origin.mydb.cursor(buffered = True)
         keyword = self.entry_1.get()
         print(keyword)
-        self.createScrollableCanvas()
         menu.execute(f"select nama_menu, foto_menu, harga_menu from menu where nama_menu like '%{keyword}%'")
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(
@@ -155,6 +155,19 @@ class PencarianPage(tk.Frame):
                 pady=10
                 )
 
+        self.scrollcanvas.create_window(
+            87,
+            10, 
+            anchor='nw', 
+            window=self.frame
+        )
+        
+        self.scrollcanvas.update_idletasks()
+        self.scrollcanvas.configure(
+            scrollregion=self.scrollcanvas.bbox('all'), 
+            yscrollcommand=self.scroll_y.set
+        )
+
     def createScrollableCanvas(self):
         self.scrollcanvas = Canvas(
             self.master,
@@ -174,19 +187,3 @@ class PencarianPage(tk.Frame):
 
         self.button_deskripsimakanan = PhotoImage(
             file=relative_to_assets("gambarmakanan.png"))
-        
-        self.button_tambahkankekeranjang = PhotoImage(
-            file=relative_to_assets("Button.png"))
-        
-        self.scrollcanvas.create_window(
-            87,
-            10, 
-            anchor='nw', 
-            window=self.frame
-        )
-        
-        self.scrollcanvas.update_idletasks()
-        self.scrollcanvas.configure(
-            scrollregion=self.scrollcanvas.bbox('all'), 
-            yscrollcommand=self.scroll_y.set
-        )
