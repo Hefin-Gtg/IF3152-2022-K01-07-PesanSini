@@ -33,7 +33,7 @@ class MenuPage(tk.Frame):
 
         self.canvas.place(x = 0, y = 0)
 
-        # PesanSini
+        #  PesanSini
         self.canvas.create_rectangle(
             0.0,
             0.0,
