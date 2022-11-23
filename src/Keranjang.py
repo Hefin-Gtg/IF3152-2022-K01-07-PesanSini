@@ -106,6 +106,7 @@ class KeranjangPage(tk.Frame):
             height=64.0
         )
     
+
     def createScrollableCanvas(self):
         self.scrollcanvas = Canvas(
             self.master,
@@ -133,7 +134,7 @@ class KeranjangPage(tk.Frame):
             file=relative_to_assets("delete.png"))
 
         menu = self.origin.mydb.cursor(buffered = True)
-        menu.execute("select nama_menu, k.ID_menu, m.harga_menu, kuantitas_pesanan from keranjang as k inner join menu as m on k.ID_menu = m.ID_menu")
+        menu.execute("select nama_menu, k.ID_menu, m.harga_menu, kuantitas_pesanan, ID_keranjang from keranjang as k, menu as m where k.ID_menu = m.ID_menu")
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(
                 self.frame,
@@ -148,11 +149,13 @@ class KeranjangPage(tk.Frame):
             ID_menu= order[1]
             harga_menu = order[2]
             kuantitas_pesanan = order[3]
+            ID_keranjang = order[4]
             harga_total = order[2] * order[3]
 
             self.order_details = {
                 "ID_menu" : order[1],
                 "harga_total" : harga_total
+
             }
             
             self.newCanvas.create_text(
@@ -194,7 +197,7 @@ class KeranjangPage(tk.Frame):
                 image =self.button_min,
                 borderwidth=0,
                 highlightthickness=0,
-                # command= lambda: , ini harusnya ngurangin kuantitas
+                command= lambda ID_keranjang = ID_keranjang, ID_menu = ID_menu, kuantitas_pesanan = kuantitas_pesanan: self._on_click_minus(ID_keranjang, ID_menu, kuantitas_pesanan),
                 relief="flat"
             )
             self.newCanvas.create_window(
@@ -203,12 +206,22 @@ class KeranjangPage(tk.Frame):
                 window = self.min,
                 anchor = "nw"
             )
+
+            self.newCanvas.create_text(
+                660.0,
+                50.0,
+                anchor="nw",
+                text=kuantitas_pesanan,
+                fill="#FFFFFF",
+                font=("MontserratRoman SemiBold", 20 * -1)
+            )
+            
             self.plus = Button(
                 self.frame,
                 image =self.button_plus,
                 borderwidth=0,
                 highlightthickness=0,
-                # command= lambda: , ini harusnya nambah kuantitas
+                command= lambda ID_keranjang = ID_keranjang, ID_menu = ID_menu: self._on_click_plus(ID_keranjang, ID_menu),
                 relief="flat"
             )
             self.newCanvas.create_window(
@@ -224,7 +237,7 @@ class KeranjangPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 text = ID_menu,
-                command=lambda ID_Menu = ID_menu: self.handle_delete(ID_Menu),
+                command=lambda ID_keranjang = ID_keranjang, ID_menu= ID_menu, kuantitas_pesanan=kuantitas_pesanan: self.handle_delete(ID_keranjang, ID_menu, kuantitas_pesanan),
                 relief="flat"
             )
 
@@ -234,7 +247,6 @@ class KeranjangPage(tk.Frame):
                 window = self.deletebutton,
                 anchor = "nw"
             )
-
             self.harga_total_pesanan += harga_total
         
         self.scrollcanvas.create_window(
@@ -250,10 +262,6 @@ class KeranjangPage(tk.Frame):
             yscrollcommand=self.scroll_y.set
         )
         
-    def handle_delete(self, ID_menu):
-        self.origin.HapusKeranjang(ID_menu)
-        # self.EditKeranjang.HapusKeranjang(self, ID_menu)
-        self.origin.Keranjang()
     def startPage(self):
         self.mainloop()
 
@@ -261,7 +269,17 @@ class KeranjangPage(tk.Frame):
         self.origin.Menu()
     
     def _on_click_KonfirmasiPesanan(self):
-        # self.origin.Pesan()
         self.origin.KonfirmasiPesanan()
-        # command = 
+    
+    def _on_click_plus(self, ID_keranjang, ID_menu):
+        self.origin.TambahMenu(ID_keranjang, ID_menu)
+        self.origin.Keranjang()
+    
+    def _on_click_minus(self, ID_keranjang, ID_menu, kuantitas_pesanan):
+        self.origin.KurangMenu(ID_keranjang, ID_menu, kuantitas_pesanan)
+        self.origin.Keranjang()
+    
+    def handle_delete(self, ID_keranjang, ID_menu, kuantitas_pesanan):
+        self.origin.HapusKeranjang(ID_keranjang, ID_menu, kuantitas_pesanan)
+        self.origin.Keranjang()
         
