@@ -49,13 +49,22 @@ class DetailPesananPage(tk.Frame):
             font=("MontserratRoman SemiBold", 35 * -1)
         )
 
+        menu = self.origin.mydb.cursor(buffered = True)
+        menu.execute("select ID_pesanan, nomor_meja, nama_pelanggan, harga_total from DetailPesanan ORDER BY ID_pesanan DESC LIMIT 1")
+        for i, menu in enumerate(menu):
+            ID_pesanan = menu[0]
+            nomor_meja = menu[1]
+            nama_pelanggan = menu[2]
+            harga_total = menu[3]
+        
+
         self.button_back = PhotoImage(
             file=relative_to_assets("back.png"))
         self.back = Button(
             image=self.button_back,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self._on_click_Menu(), #print("back clicked"),
+            command=lambda: self._on_click_Menu(),
             relief="flat"
         )
         self.back.place(
@@ -103,7 +112,7 @@ class DetailPesananPage(tk.Frame):
             350.0,
             520.0,
             anchor="nw",
-            text="Harga Total       : Rp",
+            text=f"Harga Total       : Rp{harga_total}",
             fill="#000000",
             font=("MontserratRoman Medium", 33 * -1)
         )
@@ -112,7 +121,7 @@ class DetailPesananPage(tk.Frame):
             350.0,
             340.0,
             anchor="nw",
-            text="Nama                 : Stephanie",
+            text=f"Nama                 : {nama_pelanggan}",
             fill="#000000",
             font=("MontserratRoman Medium", 33 * -1)
         )
@@ -121,7 +130,7 @@ class DetailPesananPage(tk.Frame):
             350.0,
             400.0,
             anchor="nw",
-            text="No Meja             : C3",
+            text=f"No Meja             :{nomor_meja}",
             fill="#000000",
             font=("MontserratRoman Medium", 33 * -1)
         )
@@ -130,7 +139,7 @@ class DetailPesananPage(tk.Frame):
             350.0,
             460.0,
             anchor="nw",
-            text="ID Pemesanan : 0001",
+            text=f"ID Pemesanan : {ID_pesanan}",
             fill="#000000",
             font=("MontserratRoman Medium", 33 * -1)
         )
