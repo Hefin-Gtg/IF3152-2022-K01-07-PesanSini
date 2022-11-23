@@ -11,14 +11,13 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
-class KonfirmasiPesanan(tk.Frame):
+class KonfirmasiPesananPage(tk.Frame):
     def __init__(self, master, pageManager):
         super().__init__(master)
         self.master = master
         self.origin = pageManager
         self.pack()
         self.KonfirmasiPesanan()
-
 
     def KonfirmasiPesanan(self):
         self.canvas = Canvas(
@@ -55,7 +54,7 @@ class KonfirmasiPesanan(tk.Frame):
             image=self.button_back,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self._on_click_Keranjang(), #print("back clicked"),
+            command=lambda: self._on_click_Keranjang(),
             relief="flat"
         )
         self.back.place(
@@ -121,11 +120,16 @@ class KonfirmasiPesanan(tk.Frame):
             219.5,
             image=self.entry_image_1
         )
+
+        self.Nama = tk.StringVar()
+        self.Nomeja = tk.StringVar()
+
         self.entry_1 = Entry(
             bd=0,
             bg="#66C6BA",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            textvariable=self.Nama
         )
         self.entry_1.place(
             x=463.0,
@@ -145,7 +149,8 @@ class KonfirmasiPesanan(tk.Frame):
             bd=0,
             bg="#66C6BA",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            textvariable=self.Nomeja
         )
         self.entry_2.place(
             x=463.0,
@@ -222,7 +227,7 @@ class KonfirmasiPesanan(tk.Frame):
             image=self.button_bayar,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self._on_click_DetailPesanan(), #print("bayar clicked"),
+            command=lambda: self._on_click_DetailPesanan(),
             relief="flat"
         )
         self.bayar.place(
@@ -236,7 +241,9 @@ class KonfirmasiPesanan(tk.Frame):
 
     def _on_click_Keranjang(self):
         self.origin.Keranjang()
-
-    def _on_click_DetailPesanan(self):
-        self.origin.DetailPesanan()
         
+    def _on_click_DetailPesanan(self):
+        nama = str(self.Nama.get())
+        nomeja = str(self.Nomeja.get())
+        self.origin.DataPemesan(nama, nomeja)
+        self.origin.DetailPesanan()
