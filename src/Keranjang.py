@@ -12,6 +12,9 @@ def relative_to_assets(path: str) -> Path:
 
 
 class KeranjangPage(tk.Frame):
+    
+    harga_total_pesanan = 0
+    
     def __init__(self, master, pageManager):
         super().__init__(master)
         self.master = master
@@ -21,6 +24,7 @@ class KeranjangPage(tk.Frame):
         self.Keranjang()
 
     def Keranjang(self):
+        
         self.canvas = Canvas(
             self.master,
             bg = "#D4F1F4",
@@ -81,7 +85,7 @@ class KeranjangPage(tk.Frame):
             95.0,
             671.0,
             anchor="nw",
-            text="Harga Total",
+            text="Harga Total: Rp{:0,}".format(self.harga_total_pesanan),
             fill="#FFFFFF",
             font=("MontserratRoman SemiBold", 33 * -1)
         )
@@ -129,7 +133,7 @@ class KeranjangPage(tk.Frame):
             file=relative_to_assets("delete.png"))
 
         menu = self.origin.mydb.cursor(buffered = True)
-        menu.execute("select nama_menu, k.ID_menu, m.harga_menu, kuantitas_pesanan from keranjang as k, menu as m where k.ID_menu = m.ID_menu")
+        menu.execute("select nama_menu, k.ID_menu, m.harga_menu, kuantitas_pesanan from keranjang as k inner join menu as m on k.ID_menu = m.ID_menu")
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(
                 self.frame,
@@ -190,7 +194,7 @@ class KeranjangPage(tk.Frame):
                 image =self.button_min,
                 borderwidth=0,
                 highlightthickness=0,
-                # command= lambda: ,
+                # command= lambda: , ini harusnya ngurangin kuantitas
                 relief="flat"
             )
             self.newCanvas.create_window(
@@ -204,7 +208,7 @@ class KeranjangPage(tk.Frame):
                 image =self.button_plus,
                 borderwidth=0,
                 highlightthickness=0,
-                # command= lambda: ,
+                # command= lambda: , ini harusnya nambah kuantitas
                 relief="flat"
             )
             self.newCanvas.create_window(
@@ -230,6 +234,9 @@ class KeranjangPage(tk.Frame):
                 window = self.deletebutton,
                 anchor = "nw"
             )
+
+            self.harga_total_pesanan += harga_total
+        
         self.scrollcanvas.create_window(
             87,
             10, 
@@ -256,4 +263,5 @@ class KeranjangPage(tk.Frame):
     def _on_click_KonfirmasiPesanan(self):
         # self.origin.Pesan()
         self.origin.KonfirmasiPesanan()
+        # command = 
         
