@@ -41,7 +41,7 @@ class EditKeranjangPage():
         pesan =  self.origin.mydb.cursor(buffered = True)
         pesan.execute(f"insert into pesanan(ID_keranjang, ID_menu, kuantitas_pesanan)  select * from keranjang")
         pesan.execute(f"update pesanan set ID_pesanan = {ID_pesanan} where ID_pesanan is NULL")
-        pesan.execute("truncate table keranjang")
+        pesan.execute("delete from keranjang")
         self.origin.mydb.commit()
 
     def DataPemesan(self, nama, nomeja):
