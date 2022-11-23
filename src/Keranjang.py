@@ -96,7 +96,7 @@ class KeranjangPage(tk.Frame):
             image=self.button_pesan,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self._on_click_KonfirmasiPesanan(), #print("pesan clicked"),
+            command=lambda: self._on_click_KonfirmasiPesanan(),
             relief="flat"
         )
         self.pesan.place(

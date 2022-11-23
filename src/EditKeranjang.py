@@ -1,4 +1,3 @@
-from datetime import datetime
 from tkinter import messagebox
 
 class EditKeranjangPage():
@@ -16,8 +15,6 @@ class EditKeranjangPage():
             keranjang = self.origin.mydb.cursor(buffered = True)
             keranjang.execute(f"delete from keranjang where ID_keranjang={ID_keranjang}")
             self.origin.mydb.commit()
-            
-        
 
     def TambahKeranjangBaru(self, text):
         ID_menu = int(text)
@@ -30,31 +27,32 @@ class EditKeranjangPage():
     def TambahKeranjang (self, ID_menu):
         keranjang = self.origin.mydb.cursor(buffered = True)
         keranjang.execute(f"select ID_keranjang from keranjang where ID_menu = {ID_menu}")
+        ID_keranjang = keranjang
         if keranjang.rowcount == 0:
             self.TambahKeranjangBaru(ID_menu)
+            print("berhasil ditambah")
         else:
             ID_keranjang = keranjang.fetchone()[0]
             self.TambahMenu(ID_keranjang, ID_menu)
+            print("berhasil diupdate")
         self.KurangStok(ID_menu)
-    
+                
     def Pesan(self, ID_pesanan):
         pesan =  self.origin.mydb.cursor(buffered = True)
         pesan.execute(f"insert into pesanan(ID_keranjang, ID_menu, kuantitas_pesanan)  select * from keranjang")
         pesan.execute(f"update pesanan set ID_pesanan = {ID_pesanan} where ID_pesanan is NULL")
-        pesan.execute("truncate table keranjang")
+        pesan.execute("delete from keranjang")
         self.origin.mydb.commit()
 
     def DataPemesan(self, nama, nomeja):
         harga_total = 100000
         pesan =  self.origin.mydb.cursor(buffered = True)
-        timestamp = datetime.now()
-        timestamp = timestamp.strftime('%Y-%m-%d %H:%M:%S')
-        Values = f"({nomeja}, '{nama}', {harga_total}, '{timestamp}')"
-        pesan.execute(f"insert into DetailPesanan(nomor_meja, nama_pelanggan, harga_total, timestamp) values " + Values)
+        Values = f"({nomeja}, '{nama}', {harga_total})"
+        pesan.execute(f"insert into DetailPesanan(nomor_meja, nama_pelanggan, harga_total) values " + Values)
         self.origin.mydb.commit()
         pesan.execute(f"select ID_pesanan from DetailPesanan ORDER BY ID_pesanan DESC LIMIT 1")
         ID_pesanan = pesan.fetchone()[0]
-        self.origin.Pesan(ID_pesanan)
+        self.Pesan(ID_pesanan)
     
     def TambahMenu(self, ID_keranjang, ID_menu):
         keranjang = self.origin.mydb.cursor(buffered = True)

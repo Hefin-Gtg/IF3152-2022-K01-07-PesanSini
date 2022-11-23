@@ -108,14 +108,14 @@ class DetailPesananPage(tk.Frame):
             fill="#66C6BA",
             outline="")
 
-        self.canvas.create_text(
-            350.0,
-            520.0,
-            anchor="nw",
-            text=f"Harga Total       : Rp{harga_total}",
-            fill="#000000",
-            font=("MontserratRoman Medium", 33 * -1)
-        )
+        # self.canvas.create_text(
+        #     350.0,
+        #     520.0,
+        #     anchor="nw",
+        #     text=f"Harga Total       : Rp{harga_total}",
+        #     fill="#000000",
+        #     font=("MontserratRoman Medium", 33 * -1)
+        # )
 
         self.canvas.create_text(
             350.0,

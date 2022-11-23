@@ -194,6 +194,7 @@ class KonfirmasiPesananPage(tk.Frame):
             height=64.0
         )
     
+
     def createScrollableCanvas(self):
         self.scrollcanvas = Canvas(
             self.master,
@@ -216,6 +217,7 @@ class KonfirmasiPesananPage(tk.Frame):
         
         menu = self.origin.mydb.cursor(buffered = True)
         menu.execute("select nama_menu, k.ID_menu, harga_menu, kuantitas_pesanan from keranjang as k inner join menu as m where k.ID_menu = m.ID_menu" )
+        
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(
                 self.frame, 
@@ -230,6 +232,8 @@ class KonfirmasiPesananPage(tk.Frame):
             ID_menu = order[1]
             harga_menu = order[2]
             kuantitas_pesanan = order[3]
+            harga_total = order[2] * order[3]
+            
             
             self.image = self.newCanvas.create_image(
                 156.0,
@@ -283,7 +287,6 @@ class KonfirmasiPesananPage(tk.Frame):
             scrollregion=self.scrollcanvas.bbox('all'), 
             yscrollcommand=self.scroll_y.set
         )
-
     def startPage(self):
         self.mainloop()
 
