@@ -100,7 +100,7 @@ class PencarianPage(tk.Frame):
         menu = self.origin.mydb.cursor(buffered = True)
         keyword = self.entry_1.get()
         print(keyword)
-        menu.execute(f"select nama_menu, foto_menu, harga_menu from menu where nama_menu like '%{keyword}%'")
+        menu.execute(f"select nama_menu, harga_menu from menu where nama_menu like '%{keyword}%'")
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(
                 self.frame, 
@@ -112,8 +112,7 @@ class PencarianPage(tk.Frame):
                 relief = "ridge"                
             )
             nama_menu = order[0]
-            foto_menu = order[1]
-            harga_menu = order[2]
+            harga_menu = order[1]
             
             self.newCanvas.create_text(
                 354,
