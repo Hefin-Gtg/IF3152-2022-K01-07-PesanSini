@@ -94,13 +94,16 @@ class PencarianPage(tk.Frame):
 
     def _on_click_Deskripsi(self):
         self.origin.Deskripsi()
+
+    def _on_click_TambahkanKeKeranjang(self, text):
+        self.origin.TambahKeranjang(text)
         
     def searchmenu(self):
         self.createScrollableCanvas()
         menu = self.origin.mydb.cursor(buffered = True)
         keyword = self.entry_1.get()
         print(keyword)
-        menu.execute(f"select nama_menu, foto_menu, harga_menu from menu where nama_menu like '%{keyword}%'")
+        menu.execute(f"select nama_menu, ID_menu, harga_menu from menu where nama_menu like '%{keyword}%'")
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(
                 self.frame, 
@@ -112,7 +115,7 @@ class PencarianPage(tk.Frame):
                 relief = "ridge"                
             )
             nama_menu = order[0]
-            foto_menu = order[1]
+            ID_menu = order[1]
             harga_menu = order[2]
             
             self.newCanvas.create_text(
@@ -154,6 +157,28 @@ class PencarianPage(tk.Frame):
                 padx=10,
                 pady=10
                 )
+            
+            self.keranjang = Button(
+                self.frame,
+                image =self.button_tambahkankekeranjang,
+                borderwidth=0,
+                highlightthickness=0,
+                command= lambda ID_Menu = ID_menu : self._on_click_TambahkanKeKeranjang(ID_Menu),
+                relief="flat"
+            )
+            self.newCanvas.create_window(
+                720.0,
+                49.0,
+                window = self.keranjang,
+                anchor = "nw"
+            )
+            
+            self.newCanvas.grid(
+                row = i,
+                column=0,
+                padx=10,
+                pady=10
+                )
 
         self.scrollcanvas.create_window(
             87,
@@ -187,3 +212,6 @@ class PencarianPage(tk.Frame):
 
         self.button_deskripsimakanan = PhotoImage(
             file=relative_to_assets("gambarmakanan.png"))
+
+        self.button_tambahkankekeranjang = PhotoImage(
+            file=relative_to_assets("Button.png"))
