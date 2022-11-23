@@ -11,7 +11,7 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
-class KonfirmasiPesanan(tk.Frame):
+class KonfirmasiPesananPage(tk.Frame):
     def __init__(self, master, pageManager):
         super().__init__(master)
         self.master = master
@@ -125,7 +125,8 @@ class KonfirmasiPesanan(tk.Frame):
             bd=0,
             bg="#66C6BA",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            textvariable=self.nama
         )
         self.entry_1.place(
             x=463.0,
@@ -145,7 +146,8 @@ class KonfirmasiPesanan(tk.Frame):
             bd=0,
             bg="#66C6BA",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            textvariable=self.nomeja
         )
         self.entry_2.place(
             x=463.0,
@@ -222,7 +224,7 @@ class KonfirmasiPesanan(tk.Frame):
             image=self.button_bayar,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self._on_click_DetailPesanan(), #print("bayar clicked"),
+            command=lambda: self._on_click_DetailPesanan(self.nama, self.nomeja), #print("bayar clicked"), self.nama, self.nomeja
             relief="flat"
         )
         self.bayar.place(
@@ -236,7 +238,9 @@ class KonfirmasiPesanan(tk.Frame):
 
     def _on_click_Keranjang(self):
         self.origin.Keranjang()
-
-    def _on_click_DetailPesanan(self):
-        self.origin.DetailPesanan()
         
+    def _on_click_DetailPesanan(self, nama, nomeja):
+        nama = self.nama
+        nomeja = self.nomeja
+        self.origin.DataPemesan(nama, nomeja)
+        self.origin.DetailPesanan()
