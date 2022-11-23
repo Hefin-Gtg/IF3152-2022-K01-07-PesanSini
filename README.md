@@ -46,11 +46,11 @@ Modul Menampilkan isi keranjang menerapkan Keranjang, Edit Keranjang dan hapus m
 ![](./doc/hapus_keranjang.png)
 ### 5. Melakukan pemesanan
 Modul Melakukan pemesanan menerapkan Keranjang dan Konfirmasi Pesanan.
-![](./doc/)
+![](./doc/Konfirmasi-Pesanan.png)
 ![](./doc/)
 ### 6. Menampilkan detail pesanan
 Modul Menampilkan detail pesanan menerapkan Konfirmasi Pesanan dan Detail Pesanan.
-![](./doc/)
+![](./doc/DetailPesanan.png)
 
 ## Daftar Tabel Basis Data
 * Tabel Menu
