@@ -8,8 +8,7 @@ class pageManager():
         self.mydb = mysql.connector.connect (
             host= "localhost", 
             user="root", 
-            # password ="Password",
-            password = "chagiya123",
+            password ="Password",
             database = "PesanSini"
         )
         # self.EditKeranjang = EditKeranjang
