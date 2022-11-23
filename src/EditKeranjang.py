@@ -9,7 +9,14 @@ class EditKeranjangPage():
         keranjang.execute(f"delete from keranjang where ID_menu={ID_menu}")
         self.origin.mydb.commit()
 
-    
+    def TambahKeranjang(self, text):
+        ID_menu = int(text)
+        kuantitas_pesanan = 1
+        Values = f"({ID_menu}, {kuantitas_pesanan})"
+        keranjang = self.origin.mydb.cursor(buffered = True)
+        keranjang.execute("insert into keranjang(ID_menu, kuantitas_pesanan) VALUES " + Values )
+        self.origin.mydb.commit()
+        
     def Pesan(self):
         ID_pesanan = 1
         pesan =  self.origin.mydb.cursor(buffered = True)
