@@ -5,10 +5,10 @@ from tkinter import Tk
 
 class pageManager():
     def __init__(self):
-        self.mydb = mysql.connector.connect (
+        self.mydb = mysql.connector.connect(
             host= "localhost", 
             user="root", 
-            password ="leo@juli07",
+            password="Password", 
             database = "PesanSini"
         )
         # self.EditKeranjang = EditKeranjang
@@ -52,14 +52,22 @@ class pageManager():
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
         self.page.TambahKeranjang(text)
 
-    def HapusKeranjang(self, text):
+    def HapusKeranjang(self, ID_keranjang, ID_menu, kuantitas_pesanan):
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
-        self.page.HapusKeranjang(text)
+        self.page.HapusKeranjang(ID_keranjang, ID_menu, kuantitas_pesanan)
         
-    def Pesan(self):
+    def Pesan(self, ID_pesanan):
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
-        self.page.Pesan()
+        self.page.Pesan(ID_pesanan)
 
-    def DataPemesan(self, entry1, entry2):
+    def DataPemesan(self, nama, nomeja):
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
-        self.page.DataPemesan(entry1, entry2)
+        self.page.DataPemesan(nama, nomeja)
+
+    def TambahMenu(self, ID_keranjang, ID_menu):
+        self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
+        self.page.TambahMenu(ID_keranjang, ID_menu)
+
+    def KurangMenu(self, ID_keranjang, ID_menu, kuantitas_pesanan):
+        self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
+        self.page.KurangMenu(ID_keranjang, ID_menu, kuantitas_pesanan)
