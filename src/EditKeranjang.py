@@ -15,6 +15,28 @@ class EditKeranjangPage():
             keranjang = self.origin.mydb.cursor(buffered = True)
             keranjang.execute(f"delete from keranjang where ID_keranjang={ID_keranjang}")
             self.origin.mydb.commit()
+
+    def TambahKeranjangBaru(self, text):
+        ID_menu = int(text)
+        kuantitas_pesanan = 1
+        Values = f"({ID_menu}, {kuantitas_pesanan})"
+        keranjang = self.origin.mydb.cursor(buffered = True)
+        keranjang.execute("insert into keranjang(ID_menu, kuantitas_pesanan) VALUES " + Values )
+        self.origin.mydb.commit()
+    
+    def TambahKeranjang (self, ID_menu):
+        keranjang = self.origin.mydb.cursor(buffered = True)
+        keranjang.execute(f"select ID_keranjang from keranjang where ID_menu = {ID_menu}")
+        ID_keranjang = keranjang 
+        # print(ID_keranjang)
+        if keranjang.rowcount == 0:
+            self.TambahKeranjangBaru(ID_menu)
+            print("berhasil ditambah")
+        else:
+            ID_keranjang = keranjang.fetchone()[0]
+            self.TambahMenu(ID_keranjang)
+            print("berhasil diupdate")
+        self.KurangStok(ID_menu)
                 
     def Pesan(self, ID_pesanan):
         pesan =  self.origin.mydb.cursor(buffered = True)
