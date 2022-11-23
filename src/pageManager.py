@@ -5,10 +5,10 @@ from tkinter import Tk
 
 class pageManager():
     def __init__(self):
-        self.mydb = mysql.connector.connect(
+        self.mydb = mysql.connector.connect (
             host= "localhost", 
             user="root", 
-            password="peachytrashy2", 
+            password ="Password",
             database = "PesanSini"
         )
         # self.EditKeranjang = EditKeranjang
