@@ -160,33 +160,6 @@ class KonfirmasiPesananPage(tk.Frame):
         )
 
         self.canvas.create_text(
-            389.0,
-            429.0,
-            anchor="nw",
-            text="Nasi Goreng",
-            fill="#000000",
-            font=("MontserratRoman SemiBold", 25 * -1)
-        )
-
-        self.canvas.create_text(
-            389.0,
-            468.0,
-            anchor="nw",
-            text="Rp18.900 x 4",
-            fill="#000000",
-            font=("MontserratRoman SemiBold", 25 * -1)
-        )
-
-        self.image_makanan1 = PhotoImage(
-            file=relative_to_assets("makanan1.png"))
-        
-        self.canvas.create_image(
-            250.0,
-            470.0,
-            image=self.image_makanan1
-        )
-
-        self.canvas.create_text(
             550.0,
             358.0,
             anchor="nw",
@@ -196,30 +169,14 @@ class KonfirmasiPesananPage(tk.Frame):
         )
 
         self.canvas.create_text(
-            922.0,
-            448.0,
-            anchor="nw",
-            text="Harga",
-            fill="#000000",
-            font=("MontserratRoman SemiBold", 25 * -1)
-        )
-
-        self.canvas.create_rectangle(
-            0.0,
-            648.0,
-            1366.0,
-            738.0,
-            fill="#05445E",
-            outline="")
-
-        self.canvas.create_text(
             95.0,
             671.0,
             anchor="nw",
-            text="Harga Total asdfghj",
+            text="Harga Total",
             fill="#FFFFFF",
             font=("MontserratRoman SemiBold", 33 * -1)
         )
+        self.createScrollableCanvas()
 
         self.button_bayar = PhotoImage(
             file=relative_to_assets("bayar.png"))
@@ -236,6 +193,97 @@ class KonfirmasiPesananPage(tk.Frame):
             width=176.0,
             height=64.0
         )
+    
+    def createScrollableCanvas(self):
+        self.scrollcanvas = Canvas(
+            self.master,
+            bg = "#D4F1F4",
+            height = 300,
+            width = 1223,
+            bd = 0,
+            highlightthickness = 0,
+            relief = "ridge"
+        )
+        self.scrollcanvas.place(x = 65.0, y = 400.0)
+
+        self.scroll_y = Scrollbar(self.canvas, orient="vertical", command=self.scrollcanvas.yview)
+        self.scroll_y.place(x = 1288.0, y = 400.0, height = 300)
+
+        self.frame = Frame(self.scrollcanvas, bg = "#D4F1F4")
+
+        self.makanan = PhotoImage(
+            file=relative_to_assets("makanan1.png"))
+        
+        menu = self.origin.mydb.cursor(buffered = True)
+        menu.execute("select nama_menu, k.ID_menu, harga_menu, kuantitas_pesanan from keranjang as k inner join menu as m where k.ID_menu = m.ID_menu" )
+        for i, order in enumerate(menu):
+            self.newCanvas = Canvas(
+                self.frame, 
+                width = 1043, 
+                height=124,
+                bd = 0,
+                bg = "#05445E",
+                highlightthickness = 0,
+                relief = "ridge"                
+            )
+            nama_menu = order[0]
+            ID_menu = order[1]
+            harga_menu = order[2]
+            kuantitas_pesanan = order[3]
+            
+            self.image = self.newCanvas.create_image(
+                156.0,
+                60.0,
+                image=self.makanan
+            )
+
+            self.newCanvas.create_text(
+                354,
+                26,
+                anchor="nw",
+                text=nama_menu,
+                fill="#FFFFFF",
+                font=("MontserratRoman SemiBold", 25 * -1)
+            )
+
+            self.newCanvas.create_text(
+                354,
+                86,
+                anchor="nw",
+                text=kuantitas_pesanan,
+                fill="#FFFFFF",
+                font=("MontserratRoman SemiBold", 25 * -1)
+            )
+
+            self.newCanvas.create_text(
+                354.0,
+                56,
+                anchor="nw",
+                text='Rp{:0,}'.format(harga_menu),
+                fill="#FFFFFF",
+                font=("MontserratRoman SemiBold", 20 * -1)
+            )
+
+            self.newCanvas.grid(
+                row = i,
+                column=0,
+                padx=10,
+                pady=10
+                )
+        
+        self.scrollcanvas.create_window(
+            87,
+            10, 
+            anchor='nw', 
+            window=self.frame
+        )
+        
+        self.scrollcanvas.update_idletasks()
+        self.scrollcanvas.configure(
+            scrollregion=self.scrollcanvas.bbox('all'), 
+            yscrollcommand=self.scroll_y.set
+        )
+
     def startPage(self):
         self.mainloop()
 
