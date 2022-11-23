@@ -11,7 +11,7 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
-class Deskripsi(tk.Frame):
+class DeskripsiPage(tk.Frame):
     def __init__(self, master, pageManager):
         super().__init__(master)
         self.master = master

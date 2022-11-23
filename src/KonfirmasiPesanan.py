@@ -216,7 +216,7 @@ class KonfirmasiPesananPage(tk.Frame):
             95.0,
             671.0,
             anchor="nw",
-            text="Harga Total",
+            text="Harga Total asdfghj",
             fill="#FFFFFF",
             font=("MontserratRoman SemiBold", 33 * -1)
         )
