@@ -40,8 +40,10 @@ Modul Menampilkan seluruh menu menerapkan _main_, Menu, dan Deskripsi, dan tamba
 ![](./doc/kategori.png)
 ![](./doc/kategori2.png)
 ### 4. Menampilkan isi keranjang
-Modul Menampilkan isi keranjang menerapkan Menu, Keranjang, dan hapus menu dari keranjang.
-![](./doc/)
+Modul Menampilkan isi keranjang menerapkan Keranjang, Edit Keranjang dan hapus menu dari keranjang.
+![](./doc/keranjang_kosong.png)
+![](./doc/keranjang.png)
+![](./doc/hapus_keranjang.png)
 ### 5. Melakukan pemesanan
 Modul Melakukan pemesanan menerapkan Keranjang dan Konfirmasi Pesanan.
 ![](./doc/)
