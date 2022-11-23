@@ -31,15 +31,13 @@ create table if not exists DetailPesanan (
 );
 
 create table if not exists pesanan (
-    ID_pesanan INT NOT NULL,
-    ID_keranjang INT NOT NULL,
-    ID_menu INT NOT NULL,
+    ID_pesanan INT,
+    ID_keranjang INT,
+    ID_menu INT,
     kuantitas_pesanan INT NOT NULL,
-    PRIMARY KEY (ID_pesanan),
-    FOREIGN KEY (ID_keranjang)
-    REFERENCES keranjang(ID_keranjang),
-    FOREIGN KEY (ID_menu)
-    REFERENCES keranjang(ID_menu)
+    PRIMARY KEY (ID_keranjang, ID_menu),
+    FOREIGN KEY (ID_pesanan)
+    REFERENCES DetailPesanan(ID_pesanan)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
