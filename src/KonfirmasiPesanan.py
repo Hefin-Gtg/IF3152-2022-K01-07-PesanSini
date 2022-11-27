@@ -1,5 +1,6 @@
 from pathlib import Path
 import tkinter as tk
+from tkinter import messagebox
 from tkinter import *
 
 
@@ -83,16 +84,16 @@ class KonfirmasiPesananPage(tk.Frame):
 
         self.canvas.create_rectangle(
             462.0,
-            239.184326171875,
-            962.99951171875,
+            239.0,
+            963.0,
             241.0,
             fill="#000000",
             outline="")
 
         self.canvas.create_rectangle(
             462.0,
-            298.184326171875,
-            962.99951171875,
+            298.0,
+            963.0,
             300.0,
             fill="#000000",
             outline="")
@@ -113,14 +114,6 @@ class KonfirmasiPesananPage(tk.Frame):
             image=self.image_nama
         )
 
-        self.entry_image_1 = PhotoImage(
-            file=relative_to_assets("entry_1.png"))
-        self.entry_bg_1 = self.canvas.create_image(
-            709.0,
-            219.5,
-            image=self.entry_image_1
-        )
-
         self.Nama = tk.StringVar()
         self.Nomeja = tk.StringVar()
 
@@ -138,13 +131,6 @@ class KonfirmasiPesananPage(tk.Frame):
             height=31.0
         )
 
-        self.entry_image_2 = PhotoImage(
-            file=relative_to_assets("entry_1.png"))
-        self.entry_bg_2 = self.canvas.create_image(
-            709.0,
-            279.5,
-            image=self.entry_image_2
-        )
         self.entry_2 = Entry(
             bd=0,
             bg="#66C6BA",
@@ -168,14 +154,6 @@ class KonfirmasiPesananPage(tk.Frame):
             font=("MontserratRoman SemiBold", 35 * -1)
         )
 
-        self.canvas.create_text(
-            95.0,
-            671.0,
-            anchor="nw",
-            text="Harga Total",
-            fill="#FFFFFF",
-            font=("MontserratRoman SemiBold", 33 * -1)
-        )
         self.createScrollableCanvas()
 
         self.button_bayar = PhotoImage(
@@ -294,7 +272,12 @@ class KonfirmasiPesananPage(tk.Frame):
         self.origin.Keranjang()
         
     def _on_click_DetailPesanan(self):
-        nama = str(self.Nama.get())
-        nomeja = str(self.Nomeja.get())
-        self.origin.DataPemesan(nama, nomeja)
-        self.origin.DetailPesanan()
+        try:
+            nama = str(self.Nama.get())
+            nomeja = str(self.Nomeja.get())
+            self.origin.DataPemesan(nama, nomeja)
+            self.origin.DetailPesanan()
+        except:
+            messagebox.showinfo("Data masih kosong", "Silakan masukkan nama dan nomor meja")
+            return False
+            

@@ -77,7 +77,7 @@ class PencarianPage(tk.Frame):
             image=self.button_back,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self._on_click_Menu(), #print("back clicked"),
+            command=lambda: self._on_click_Menu(), 
             relief="flat"
         )
         self.back.place(
@@ -102,7 +102,6 @@ class PencarianPage(tk.Frame):
         self.createScrollableCanvas()
         menu = self.origin.mydb.cursor(buffered = True)
         keyword = self.entry_1.get()
-        print(keyword)
         menu.execute(f"select nama_menu, ID_menu, harga_menu from menu where nama_menu like '%{keyword}%'")
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(

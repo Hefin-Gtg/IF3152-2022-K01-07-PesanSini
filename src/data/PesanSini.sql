@@ -46,12 +46,12 @@ create table if not exists pesanan (
 
 
 INSERT INTO menu(ID_menu, nama_menu, deskripsi_menu,harga_menu, jenis_menu, stok_menu) VALUES
-(1, 'nasi rakyat', 'ayam suwir + tempe orek + telur dadar +sambal balado+ nasi', 18900, 'makanan', 50),
-(2, 'Ayam rica-rica', 'nasi putih dengan ayam rica-rica, ditambah dengan daun kemangi, bawang, dan timun', 39900, 'makanan', 50),
-(3, 'Ayam Taliwang', 'nasi putih dengan chicken karaage yang diberi bumbu taliwang, bawang goreng tabur, dan timun', 39900, 'makanan', 50),
-(4, 'Cumi sambal bawang goreng', 'cumi asin+ sambal bawang goreng khas bali', 47900, 'makanan', 50),
-(5, 'Cumi Pete Balado', 'cumi asin + sambal balado + kentang + pete', 47900, 'makanan', 50),
-(6, 'Sapi asap lada garam', 'nasi hainan, sapi asap, bumbu lada garam, dan tumis pakcoy', 55000, 'makanan', 50),
+(1, 'nasi rakyat', 'ayam suwir + tempe orek + telur dadar +sambal balado+ nasi', 18900, 'makanan', 0),
+(2, 'Ayam rica-rica', 'nasi putih dengan ayam rica-rica, ditambah dengan daun kemangi, bawang, dan timun', 39900, 'makanan', 2),
+(3, 'Ayam Taliwang', 'nasi putih dengan chicken karaage yang diberi bumbu taliwang, bawang goreng tabur, dan timun', 39900, 'makanan', 3),
+(4, 'Cumi sambal bawang goreng', 'cumi asin+ sambal bawang goreng khas bali', 47900, 'makanan', 5),
+(5, 'Cumi Pete Balado', 'cumi asin + sambal balado + kentang + pete', 47900, 'makanan', 6),
+(6, 'Sapi asap lada garam', 'nasi hainan, sapi asap, bumbu lada garam, dan tumis pakcoy', 55000, 'makanan', 9),
 (7, 'Almightea-Lemon Tea','Teh rasa lemon' , 18000, 'minuman', 50),
 (8, 'Serenitea', 'Teh, jelly leci, dan selasih', 18000, 'minuman', 50),
 (9, 'Ice Signature Chocolate', 'Ice chocolate dengan susu', 18000, 'minuman', 50),

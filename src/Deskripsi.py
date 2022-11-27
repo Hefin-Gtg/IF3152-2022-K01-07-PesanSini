@@ -12,10 +12,11 @@ def relative_to_assets(path: str) -> Path:
 
 
 class DeskripsiPage(tk.Frame):
-    def __init__(self, master, pageManager):
+    def __init__(self, master, pageManager, ID_menu):
         super().__init__(master)
         self.master = master
         self.origin = pageManager
+        self.ID_menu = ID_menu
         self.pack()
         self.Deskripsi()
 
@@ -56,13 +57,25 @@ class DeskripsiPage(tk.Frame):
             height=90.0
         )
 
+        menu = self.origin.mydb.cursor(buffered = True)
+        requirement = f"ID_menu= '{self.ID_menu}'"
+        menu.execute("select nama_menu, harga_menu, deskripsi_menu, jenis_menu, stok_menu from menu where " + requirement)
+        for i, order in enumerate(menu):
+            nama_menu = order[0]
+            harga_menu = order[1]
+            deskripsi_menu = order[2]
+            jenis_menu = order[3]
+            stok_menu = order[4]
+
         self.button_nextdesc = PhotoImage(
             file=relative_to_assets("nextdesc.png"))
         self.nextdesc = Button(
             image=self.button_nextdesc,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("nextdesc clicked"),
+            # command=lambda: print("nextdesc clicked"),
+            command= lambda : self.nextmenu(),
+            # command= lambda ID_Menu = ID_menu : self._on_click_TambahkanKeKeranjang(ID_Menu),
             relief="flat"
         )
         self.nextdesc.place(
@@ -78,7 +91,7 @@ class DeskripsiPage(tk.Frame):
             image=self.button_backdesc,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("backdesc clicked"),
+            command=lambda : self.backmenu(),# print("backdesc clicked"),
             relief="flat"
         )
         self.backdesc.place(
@@ -94,7 +107,7 @@ class DeskripsiPage(tk.Frame):
             image=self.button_tambahkankekeranjang,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("TambahkanKeKeranjang clicked"),
+            command=lambda ID_menu = self.ID_menu: self._on_click_TambahkanKeKeranjang(ID_menu),
             relief="flat"
         )
         self.TambahkanKeKeranjang.place(
@@ -106,50 +119,50 @@ class DeskripsiPage(tk.Frame):
 
         self.canvas.create_text(
             604.0,
-            509.0,
+            450.0,
             anchor="nw",
-            text="Stok Tersedia",
+            text=self.Cekstok(stok_menu),
             fill="#000000",
             font=("MontserratRoman SemiBold", 25 * -1)
         )
 
-        self.button_min = PhotoImage(
-            file=relative_to_assets("min.png"))
-        self.min = Button(
-            image=self.button_min,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("min clicked"),
-            relief="flat"
-        )
-        self.min.place(
-            x=610.0,
-            y=550.0,
-            width=35.0,
-            height=35.0
-        )
+        # self.button_min = PhotoImage(
+        #     file=relative_to_assets("min.png"))
+        # self.min = Button(
+        #     image=self.button_min,
+        #     borderwidth=0,
+        #     highlightthickness=0,
+        #     command=lambda: print("min clicked"),
+        #     relief="flat"
+        # )
+        # self.min.place(
+        #     x=610.0,
+        #     y=550.0,
+        #     width=35.0,
+        #     height=35.0
+        # )
 
-        self.button_plus = PhotoImage(
-            file=relative_to_assets("plus.png"))
-        self.plus = Button(
-            image=self.button_plus,
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("plus clicked"),
-            relief="flat"
-        )
-        self.plus.place(
-            x=732.0,
-            y=550.0,
-            width=35.0,
-            height=35.0
-        )
+        # self.button_plus = PhotoImage(
+        #     file=relative_to_assets("plus.png"))
+        # self.plus = Button(
+        #     image=self.button_plus,
+        #     borderwidth=0,
+        #     highlightthickness=0,
+        #     command=lambda: print("plus clicked"),
+        #     relief="flat"
+        # )
+        # self.plus.place(
+        #     x=732.0,
+        #     y=550.0,
+        #     width=35.0,
+        #     height=35.0
+        # )
 
         self.canvas.create_text(
             600.0,
             400.0,
             anchor="nw",
-            text="Rp18.900",
+            text="Rp{:0,}".format(harga_menu),
             fill="#000000",
             font=("MontserratRoman SemiBold", 45 * -1)
         )
@@ -158,7 +171,7 @@ class DeskripsiPage(tk.Frame):
             600.0,
             290.0,
             anchor="nw",
-            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+            text=deskripsi_menu,
             fill="#000000",
             font=("MontserratRoman Regular", 25 * -1)
         )
@@ -167,7 +180,7 @@ class DeskripsiPage(tk.Frame):
             600.0,
             235.0,
             anchor="nw",
-            text="Makanan",
+            text=jenis_menu,
             fill="#000000",
             font=("MontserratRoman SemiBold", 25 * -1)
         )
@@ -176,7 +189,7 @@ class DeskripsiPage(tk.Frame):
             600.0,
             190.0,
             anchor="nw",
-            text="Nasi Goreng",
+            text=nama_menu,
             fill="#000000",
             font=("MontserratRoman SemiBold", 40 * -1)
         )
@@ -189,25 +202,25 @@ class DeskripsiPage(tk.Frame):
             image=self.image_makanan
         )
 
-        self.entry_image_1 = PhotoImage(
-            file=relative_to_assets("entry_1.png"))
-        self.entry_bg_1 = self.canvas.create_image(
-            690.0,
-            568.0,
-            image=self.entry_image_1
-        )
-        self.entry_1 = Entry(
-            bd=0,
-            bg="#05445E",
-            fg="#000716",
-            highlightthickness=0
-        )
-        self.entry_1.place(
-            x=675.0,
-            y=548.0,
-            width=30.0,
-            height=38.0
-        )
+        # self.entry_image_1 = PhotoImage(
+        #     file=relative_to_assets("entry_1.png"))
+        # self.entry_bg_1 = self.canvas.create_image(
+        #     690.0,
+        #     568.0,
+        #     image=self.entry_image_1
+        # )
+        # self.entry_1 = Entry(
+        #     bd=0,
+        #     bg="#05445E",
+        #     fg="#000716",
+        #     highlightthickness=0
+        # )
+        # self.entry_1.place(
+        #     x=675.0,
+        #     y=548.0,
+        #     width=30.0,
+        #     height=38.0
+        # )
 
         self.image_PesanSini = PhotoImage(
             file=relative_to_assets("PesanSini.png"))
@@ -259,3 +272,29 @@ class DeskripsiPage(tk.Frame):
     
     def _on_click_Pencarian(self):
         self.origin.Pencarian()   
+    
+    def _on_click_TambahkanKeKeranjang(self, ID_menu):
+        self.origin.TambahKeranjang(ID_menu)
+    
+    def Cekstok(self,stok_menu):
+        if stok_menu > 0:
+            return "Produk Tersedia"
+        else:
+            return "Produk habis"
+    
+    def nextmenu(self):
+        if self.ID_menu != 36:
+            self.ID_menu = self.ID_menu + 1
+            self.origin.Deskripsi(self.ID_menu)
+        else :
+            self.ID_menu = 1
+            self.origin.Deskripsi(self.ID_menu)
+        
+    def backmenu(self):
+        if self.ID_menu != 1:
+            self.ID_menu = self.ID_menu + 1
+            self.origin.Deskripsi(self.ID_menu)
+        else :
+            self.ID_menu = 36
+            self.origin.Deskripsi(self.ID_menu)
+            

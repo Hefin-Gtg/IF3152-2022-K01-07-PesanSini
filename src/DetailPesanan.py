@@ -50,12 +50,13 @@ class DetailPesananPage(tk.Frame):
         )
 
         menu = self.origin.mydb.cursor(buffered = True)
-        menu.execute("select ID_pesanan, nomor_meja, nama_pelanggan, harga_total from DetailPesanan ORDER BY ID_pesanan DESC LIMIT 1")
+        menu.execute("select ID_pesanan, nomor_meja, nama_pelanggan, harga_total, timestamp from DetailPesanan ORDER BY ID_pesanan DESC LIMIT 1")
         for i, menu in enumerate(menu):
             ID_pesanan = menu[0]
             nomor_meja = menu[1]
             nama_pelanggan = menu[2]
             harga_total = menu[3]
+            timestamp = menu[4]
         
 
         self.button_back = PhotoImage(
@@ -104,24 +105,24 @@ class DetailPesananPage(tk.Frame):
             333.0,
             312.0,
             1033.0,
-            612.0,
+            650.0,
             fill="#66C6BA",
             outline="")
 
-        # self.canvas.create_text(
-        #     350.0,
-        #     520.0,
-        #     anchor="nw",
-        #     text=f"Harga Total       : Rp{harga_total}",
-        #     fill="#000000",
-        #     font=("MontserratRoman Medium", 33 * -1)
-        # )
+        self.canvas.create_text(
+            350.0,
+            520.0,
+            anchor="nw",
+            text="Harga Total      : Rp{:0,}".format(harga_total),
+            fill="#000000",
+            font=("MontserratRoman Medium", 33 * -1)
+        )
 
         self.canvas.create_text(
             350.0,
             340.0,
             anchor="nw",
-            text=f"Nama                 : {nama_pelanggan}",
+            text=f"Nama               : {nama_pelanggan}",
             fill="#000000",
             font=("MontserratRoman Medium", 33 * -1)
         )
@@ -130,7 +131,7 @@ class DetailPesananPage(tk.Frame):
             350.0,
             400.0,
             anchor="nw",
-            text=f"No Meja             :{nomor_meja}",
+            text=f"No Meja            : {nomor_meja}",
             fill="#000000",
             font=("MontserratRoman Medium", 33 * -1)
         )
@@ -140,6 +141,14 @@ class DetailPesananPage(tk.Frame):
             460.0,
             anchor="nw",
             text=f"ID Pemesanan : {ID_pesanan}",
+            fill="#000000",
+            font=("MontserratRoman Medium", 33 * -1)
+        )
+        self.canvas.create_text(
+            350.0,
+            580.0,
+            anchor="nw",
+            text=f"Timestamp      : {timestamp}",
             fill="#000000",
             font=("MontserratRoman Medium", 33 * -1)
         )

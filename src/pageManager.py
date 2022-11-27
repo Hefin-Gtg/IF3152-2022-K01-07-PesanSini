@@ -5,13 +5,16 @@ from tkinter import Tk
 
 class pageManager():
     def __init__(self):
-        self.mydb = mysql.connector.connect(
-            host= "localhost", 
-            user="root", 
-            password="Password", 
-            database = "PesanSini"
-        )
-        # self.EditKeranjang = EditKeranjang
+        try:
+            self.mydb = mysql.connector.connect(
+                host= "localhost", 
+                user="root", 
+                password="Password", 
+                database = "PesanSini"
+            )
+        except:
+            return False
+            
         self.user = None
         self.window = Tk()
         self.window.geometry("1366x738")
@@ -36,8 +39,8 @@ class pageManager():
         self.page = Keranjang.KeranjangPage(master = self.window, pageManager = self)
         self.page.startPage()
     
-    def Deskripsi(self):
-        self.page = Deskripsi.DeskripsiPage(master = self.window, pageManager = self)
+    def Deskripsi(self, ID_menu):
+        self.page = Deskripsi.DeskripsiPage(master = self.window, pageManager = self, ID_menu=ID_menu)
         self.page.startPage()
 
     def Pencarian(self):
@@ -71,3 +74,4 @@ class pageManager():
     def KurangMenu(self, ID_keranjang, ID_menu, kuantitas_pesanan):
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
         self.page.KurangMenu(ID_keranjang, ID_menu, kuantitas_pesanan)
+    

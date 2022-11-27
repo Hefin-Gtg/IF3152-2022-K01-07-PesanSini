@@ -16,8 +16,6 @@ class EditKeranjangPage():
             keranjang = self.origin.mydb.cursor(buffered = True)
             keranjang.execute(f"delete from keranjang where ID_keranjang={ID_keranjang}")
             self.origin.mydb.commit()
-            
-        
 
     def TambahKeranjangBaru(self, text):
         ID_menu = int(text)
@@ -29,13 +27,17 @@ class EditKeranjangPage():
     
     def TambahKeranjang (self, ID_menu):
         keranjang = self.origin.mydb.cursor(buffered = True)
-        keranjang.execute(f"select ID_keranjang from keranjang where ID_menu = {ID_menu}")
-        if keranjang.rowcount == 0:
-            self.TambahKeranjangBaru(ID_menu)
-        else:
-            ID_keranjang = keranjang.fetchone()[0]
-            self.TambahMenu(ID_keranjang, ID_menu)
-        self.KurangStok(ID_menu)
+        keranjang.execute(f"select stok_menu from menu where ID_menu = {ID_menu}")
+        if keranjang.fetchone()[0] > 0:
+            keranjang.execute(f"select ID_keranjang from keranjang where ID_menu = {ID_menu}")
+            if keranjang.rowcount == 0:
+                self.TambahKeranjangBaru(ID_menu)
+            else:
+                ID_keranjang = keranjang.fetchone()[0]
+                self.TambahMenu(ID_keranjang, ID_menu)
+            self.KurangStok(ID_menu)
+        else :
+            messagebox.showinfo("Stok habis", "Stok habis, silakan pesan produk lainnya.")
     
     def Pesan(self, ID_pesanan):
         pesan =  self.origin.mydb.cursor(buffered = True)
@@ -45,8 +47,9 @@ class EditKeranjangPage():
         self.origin.mydb.commit()
 
     def DataPemesan(self, nama, nomeja):
-        harga_total = 100000
         pesan =  self.origin.mydb.cursor(buffered = True)
+        pesan.execute("select sum(harga_menu*kuantitas_pesanan) from keranjang as k inner join menu as m where k.ID_menu = m.ID_menu") 
+        harga_total = pesan.fetchone()[0]
         timestamp = datetime.now()
         timestamp = timestamp.strftime('%Y-%m-%d %H:%M:%S')
         Values = f"({nomeja}, '{nama}', {harga_total}, '{timestamp}')"
@@ -58,9 +61,14 @@ class EditKeranjangPage():
     
     def TambahMenu(self, ID_keranjang, ID_menu):
         keranjang = self.origin.mydb.cursor(buffered = True)
-        keranjang.execute(f"update keranjang set kuantitas_pesanan = kuantitas_pesanan+ 1 where ID_keranjang = {ID_keranjang}")
-        self.origin.mydb.commit()
-        self.KurangStok(ID_menu)
+        keranjang.execute(f"select stok_menu from menu where ID_menu = {ID_menu}")
+        if keranjang.fetchone()[0] > 0:
+            keranjang.execute(f"update keranjang set kuantitas_pesanan = kuantitas_pesanan+ 1 where ID_keranjang = {ID_keranjang}")
+            self.origin.mydb.commit()
+            self.KurangStok(ID_menu)
+        else :
+            messagebox.showinfo("Stok habis", "Stok habis, silakan pesan produk lainnya.")
+        
     
     def KurangMenu(self, ID_keranjang, ID_menu, kuantitas_pesanan):
         keranjang = self.origin.mydb.cursor(buffered = True)
@@ -80,3 +88,8 @@ class EditKeranjangPage():
         menu = self.origin.mydb.cursor(buffered = True)
         menu.execute(f"update menu set stok_menu = stok_menu - 1 where ID_menu = {ID_menu}")
         self.origin.mydb.commit()
+
+    def harga_total_pesanan(self):
+        menu = self.origin.mydb.cursor(buffered = True)
+        menu.execute(f"select sum(kuantitas_pesanan*harga_menu) from keranjang inner join menu")
+        return menu.fetchone()[0]

@@ -249,7 +249,7 @@ class MenuPage(tk.Frame):
                 image =self.button_deskripsimakanan,
                 borderwidth=0,
                 highlightthickness=0,
-                command= lambda: self._on_click_Deskripsi(),
+                command= lambda ID_menu = ID_menu: self._on_click_Deskripsi(ID_menu),
                 relief="flat"
             )
             self.newCanvas.create_window(
@@ -308,8 +308,8 @@ class MenuPage(tk.Frame):
     def _on_click_Keranjang(self):
         self.origin.Keranjang()
 
-    def _on_click_Deskripsi(self):
-        self.origin.Deskripsi()
+    def _on_click_Deskripsi(self, ID_menu):
+        self.origin.Deskripsi(ID_menu)
     
     def _on_click_Pencarian(self):
         self.origin.Pencarian()
@@ -338,5 +338,5 @@ class MenuPage(tk.Frame):
         self.kategori = 'paket'
         self.createScrollableCanvas()
 
-    def _on_click_TambahkanKeKeranjang(self, text):
-        self.origin.TambahKeranjang(text)
+    def _on_click_TambahkanKeKeranjang(self, ID_menu):
+        self.origin.TambahKeranjang(ID_menu)

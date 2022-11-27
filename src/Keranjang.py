@@ -1,7 +1,7 @@
 from pathlib import Path
 import tkinter as tk
+from tkinter import messagebox
 from tkinter import *
-import EditKeranjang
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../img/Keranjang")
@@ -12,19 +12,16 @@ def relative_to_assets(path: str) -> Path:
 
 
 class KeranjangPage(tk.Frame):
-    
-    harga_total_pesanan = 0
-    
     def __init__(self, master, pageManager):
         super().__init__(master)
         self.master = master
         self.origin = pageManager
-        self.EditKeranjang = EditKeranjang
         self.pack()
-        self.Keranjang()
+        self.Keranjang()  
+
+    harga_total_pesanan = 0
 
     def Keranjang(self):
-        
         self.canvas = Canvas(
             self.master,
             bg = "#D4F1F4",
@@ -80,6 +77,8 @@ class KeranjangPage(tk.Frame):
             738.0,
             fill="#05445E",
             outline="")
+        
+        
 
         self.canvas.create_text(
             95.0,
@@ -151,13 +150,8 @@ class KeranjangPage(tk.Frame):
             kuantitas_pesanan = order[3]
             ID_keranjang = order[4]
             harga_total = order[2] * order[3]
+            self.harga_total_pesanan += harga_total
 
-            self.order_details = {
-                "ID_menu" : order[1],
-                "harga_total" : harga_total
-
-            }
-            
             self.newCanvas.create_text(
                 250,
                 26,
@@ -247,7 +241,6 @@ class KeranjangPage(tk.Frame):
                 window = self.deletebutton,
                 anchor = "nw"
             )
-            self.harga_total_pesanan += harga_total
         
         self.scrollcanvas.create_window(
             87,
@@ -269,7 +262,12 @@ class KeranjangPage(tk.Frame):
         self.origin.Menu()
     
     def _on_click_KonfirmasiPesanan(self):
-        self.origin.KonfirmasiPesanan()
+        pesan =  self.origin.mydb.cursor(buffered = True)
+        pesan.execute("select * from keranjang")
+        if pesan.rowcount != 0:
+            self.origin.KonfirmasiPesanan()
+        else:
+            messagebox.showinfo("Tidak ada pesanan yang diproses", "Silakan tambahkan menu yang akan dipesan")
     
     def _on_click_plus(self, ID_keranjang, ID_menu):
         self.origin.TambahMenu(ID_keranjang, ID_menu)
@@ -282,4 +280,3 @@ class KeranjangPage(tk.Frame):
     def handle_delete(self, ID_keranjang, ID_menu, kuantitas_pesanan):
         self.origin.HapusKeranjang(ID_keranjang, ID_menu, kuantitas_pesanan)
         self.origin.Keranjang()
-        
