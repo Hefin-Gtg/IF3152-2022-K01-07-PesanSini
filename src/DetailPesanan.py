@@ -75,15 +75,6 @@ class DetailPesananPage(tk.Frame):
             height=90.0
         )
 
-        self.canvas.create_text(
-            95.0,
-            675.0,
-            anchor="nw",
-            text="Harga Total",
-            fill="#FFFFFF",
-            font=("MontserratRoman SemiBold", 33 * -1)
-        )
-
         self.canvas.create_rectangle(
             283.0,
             193.0,
