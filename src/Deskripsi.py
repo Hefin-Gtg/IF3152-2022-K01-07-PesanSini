@@ -292,7 +292,7 @@ class DeskripsiPage(tk.Frame):
         
     def backmenu(self):
         if self.ID_menu != 1:
-            self.ID_menu = self.ID_menu + 1
+            self.ID_menu = self.ID_menu - 1
             self.origin.Deskripsi(self.ID_menu)
         else :
             self.ID_menu = 36
