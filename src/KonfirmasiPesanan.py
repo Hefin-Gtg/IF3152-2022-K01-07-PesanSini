@@ -276,8 +276,8 @@ class KonfirmasiPesananPage(tk.Frame):
             nama = str(self.Nama.get())
             nomeja = str(self.Nomeja.get())
             self.origin.DataPemesan(nama, nomeja)
-            self.origin.DetailPesanan()
+            
         except:
-            messagebox.showinfo("Data masih kosong", "Silakan masukkan nama dan nomor meja")
+            messagebox.showinfo("Data yang dimasukkan tidak benar", "Silakan masukkan nama dan nomor meja yang benar")
             return False
             

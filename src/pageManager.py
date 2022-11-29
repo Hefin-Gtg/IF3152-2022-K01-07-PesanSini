@@ -13,7 +13,7 @@ class pageManager():
                 database = "PesanSini"
             )
         except:
-            return False
+            return None
             
         self.user = None
         self.window = Tk()

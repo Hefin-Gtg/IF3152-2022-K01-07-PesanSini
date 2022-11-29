@@ -92,8 +92,8 @@ class PencarianPage(tk.Frame):
     def _on_click_Menu(self):
         self.origin.Menu()
 
-    def _on_click_Deskripsi(self):
-        self.origin.Deskripsi()
+    def _on_click_Deskripsi(self, ID_menu):
+        self.origin.Deskripsi(ID_menu)
 
     def _on_click_TambahkanKeKeranjang(self, text):
         self.origin.TambahKeranjang(text)
@@ -131,7 +131,7 @@ class PencarianPage(tk.Frame):
                 image =self.button_deskripsimakanan,
                 borderwidth=0,
                 highlightthickness=0,
-                command= lambda: self._on_click_Deskripsi(),
+                command= lambda: self._on_click_Deskripsi(ID_menu),
                 relief="flat"
             )
             self.newCanvas.create_window(

@@ -47,25 +47,28 @@ class EditKeranjangPage():
         self.origin.mydb.commit()
 
     def DataPemesan(self, nama, nomeja):
-        pesan =  self.origin.mydb.cursor(buffered = True)
-        pesan.execute("select sum(harga_menu*kuantitas_pesanan) from keranjang as k inner join menu as m where k.ID_menu = m.ID_menu") 
-        harga_total = pesan.fetchone()[0]
-        timestamp = datetime.now()
-        timestamp = timestamp.strftime('%Y-%m-%d %H:%M:%S')
-        Values = f"({nomeja}, '{nama}', {harga_total}, '{timestamp}')"
-        pesan.execute(f"insert into DetailPesanan(nomor_meja, nama_pelanggan, harga_total, timestamp) values " + Values)
-        self.origin.mydb.commit()
-        pesan.execute(f"select ID_pesanan from DetailPesanan ORDER BY ID_pesanan DESC LIMIT 1")
-        ID_pesanan = pesan.fetchone()[0]
-        self.origin.Pesan(ID_pesanan)
-    
+        if int(nomeja) > 20 or int(nomeja) < 0:
+            messagebox.showinfo("Data yang dimasukkan tidak benar", "Silakan masukkan nomor meja 0-20")
+        else:
+            pesan =  self.origin.mydb.cursor(buffered = True)
+            pesan.execute("select sum(harga_menu*kuantitas_pesanan) from keranjang as k inner join menu as m where k.ID_menu = m.ID_menu") 
+            harga_total = pesan.fetchone()[0]
+            timestamp = datetime.now()
+            timestamp = timestamp.strftime('%Y-%m-%d %H:%M:%S')
+            Values = f"({nomeja}, '{nama}', {harga_total}, '{timestamp}')"
+            pesan.execute(f"insert into DetailPesanan(nomor_meja, nama_pelanggan, harga_total, timestamp) values " + Values)
+            self.origin.mydb.commit()
+            pesan.execute(f"select ID_pesanan from DetailPesanan ORDER BY ID_pesanan DESC LIMIT 1")
+            ID_pesanan = pesan.fetchone()[0]
+            self.origin.Pesan(ID_pesanan)
+            self.origin.DetailPesanan()
+        
     def TambahMenu(self, ID_keranjang, ID_menu):
         keranjang = self.origin.mydb.cursor(buffered = True)
         keranjang.execute(f"select stok_menu from menu where ID_menu = {ID_menu}")
         if keranjang.fetchone()[0] > 0:
             keranjang.execute(f"update keranjang set kuantitas_pesanan = kuantitas_pesanan+ 1 where ID_keranjang = {ID_keranjang}")
             self.origin.mydb.commit()
-            self.KurangStok(ID_menu)
         else :
             messagebox.showinfo("Stok habis", "Stok habis, silakan pesan produk lainnya.")
         
