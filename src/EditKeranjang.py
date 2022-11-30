@@ -23,6 +23,7 @@ class EditKeranjangPage():
         keranjang = self.origin.mydb.cursor(buffered = True)
         keranjang.execute("insert into keranjang(ID_menu, kuantitas_pesanan) VALUES " + Values )
         self.origin.mydb.commit()
+        self.KurangStok(ID_menu)
     
     def TambahKeranjang (self, ID_menu):
         keranjang = self.origin.mydb.cursor(buffered = True)
@@ -31,10 +32,10 @@ class EditKeranjangPage():
             keranjang.execute(f"select ID_keranjang from keranjang where ID_menu = {ID_menu}")
             if keranjang.rowcount == 0:
                 self.TambahKeranjangBaru(ID_menu)
+                
             else:
                 ID_keranjang = keranjang.fetchone()[0]
                 self.TambahMenu(ID_keranjang, ID_menu)
-            self.KurangStok(ID_menu)
         else :
             messagebox.showinfo("Stok habis", "Stok habis, silakan pesan produk lainnya.")
     
@@ -69,6 +70,7 @@ class EditKeranjangPage():
         if keranjang.fetchone()[0] > 0:
             keranjang.execute(f"update keranjang set kuantitas_pesanan = kuantitas_pesanan+ 1 where ID_keranjang = {ID_keranjang}")
             self.origin.mydb.commit()
+            self.KurangStok(ID_menu)
         else :
             messagebox.showinfo("Stok habis", "Stok habis, silakan pesan produk lainnya.")
         
