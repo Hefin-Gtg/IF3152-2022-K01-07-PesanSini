@@ -47,7 +47,7 @@ class EditKeranjangPage():
         self.origin.mydb.commit()
 
     def DataPemesan(self, nama, nomeja):
-        if int(nomeja) > 20 or int(nomeja) < 0 or nama.replace(" ","") =="" :
+        if int(nomeja) > 20 or int(nomeja) < 1 or nama.replace(" ","") =="" :
             messagebox.showinfo("Data yang dimasukkan tidak benar", "Silakan masukkan nomor meja 0-20 atau silakan masukkan nama Anda")
         else:
             pesan =  self.origin.mydb.cursor(buffered = True)
