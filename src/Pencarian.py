@@ -131,7 +131,7 @@ class PencarianPage(tk.Frame):
                 image =self.button_deskripsimakanan,
                 borderwidth=0,
                 highlightthickness=0,
-                command= lambda: self._on_click_Deskripsi(ID_menu),
+                command= lambda ID_menu = ID_menu: self._on_click_Deskripsi(ID_menu),
                 relief="flat"
             )
             self.newCanvas.create_window(
