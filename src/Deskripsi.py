@@ -171,6 +171,7 @@ class DeskripsiPage(tk.Frame):
             600.0,
             290.0,
             anchor="nw",
+            width = 750,
             text=deskripsi_menu,
             fill="#000000",
             font=("MontserratRoman Regular", 25 * -1)
