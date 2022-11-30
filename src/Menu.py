@@ -220,6 +220,8 @@ class MenuPage(tk.Frame):
         menu = self.origin.mydb.cursor(buffered = True)
         requirement = f"jenis_menu = '{self.kategori}'"
         menu.execute("select nama_menu, ID_menu, harga_menu from menu where " + requirement)
+        if menu.rowcount == 0 :
+            messagebox.showinfo("Menu kosong", "Tidak ada menu yang tersedia.")
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(
                 self.frame, 

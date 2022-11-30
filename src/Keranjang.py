@@ -134,6 +134,8 @@ class KeranjangPage(tk.Frame):
 
         menu = self.origin.mydb.cursor(buffered = True)
         menu.execute("select nama_menu, k.ID_menu, m.harga_menu, kuantitas_pesanan, ID_keranjang from keranjang as k, menu as m where k.ID_menu = m.ID_menu")
+        if menu.rowcount == 0 :
+            messagebox.showinfo("Keranjang kosong", "keranjang masih kosong.")
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(
                 self.frame,

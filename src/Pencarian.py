@@ -1,7 +1,7 @@
 from pathlib import Path
 import tkinter as tk
 from tkinter import *
-# from .Menu import MenuPage
+from tkinter import messagebox
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -103,6 +103,8 @@ class PencarianPage(tk.Frame):
         menu = self.origin.mydb.cursor(buffered = True)
         keyword = self.entry_1.get()
         menu.execute(f"select nama_menu, ID_menu, harga_menu from menu where nama_menu like '%{keyword}%'")
+        if menu.rowcount == 0 :
+            messagebox.showinfo("Keyword tidak sesuai", "Tidak ada menu yang sesuai dengan keyword yang dimasukkan.")
         for i, order in enumerate(menu):
             self.newCanvas = Canvas(
                 self.frame, 

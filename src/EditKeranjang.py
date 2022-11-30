@@ -36,6 +36,7 @@ class EditKeranjangPage():
             else:
                 ID_keranjang = keranjang.fetchone()[0]
                 self.TambahMenu(ID_keranjang, ID_menu)
+            messagebox.showinfo("Menu ditambahkan ke keranjang", "Penambahan menu berhasil.")
         else :
             messagebox.showinfo("Stok habis", "Stok habis, silakan pesan produk lainnya.")
     
@@ -50,19 +51,21 @@ class EditKeranjangPage():
         if int(nomeja) > 20 or int(nomeja) < 1 or nama.replace(" ","") =="" :
             messagebox.showinfo("Data yang dimasukkan tidak benar", "Silakan masukkan nomor meja 0-20 atau silakan masukkan nama Anda")
         else:
-            pesan =  self.origin.mydb.cursor(buffered = True)
-            pesan.execute("select sum(harga_menu*kuantitas_pesanan) from keranjang as k inner join menu as m where k.ID_menu = m.ID_menu") 
-            harga_total = pesan.fetchone()[0]
-            timestamp = datetime.now()
-            timestamp = timestamp.strftime('%Y-%m-%d %H:%M:%S')
-            nama = nama.replace(" ","")
-            Values = f"({nomeja}, '{nama}', {harga_total}, '{timestamp}')"
-            pesan.execute(f"insert into DetailPesanan(nomor_meja, nama_pelanggan, harga_total, timestamp) values " + Values)
-            self.origin.mydb.commit()
-            pesan.execute(f"select ID_pesanan from DetailPesanan ORDER BY ID_pesanan DESC LIMIT 1")
-            ID_pesanan = pesan.fetchone()[0]
-            self.origin.Pesan(ID_pesanan)
-            self.origin.DetailPesanan()
+            MsgBox = messagebox.askquestion ('Pesan','Apakah yakin melakukan pemesanan?',icon = 'warning')
+            if MsgBox == 'yes':
+                pesan =  self.origin.mydb.cursor(buffered = True)
+                pesan.execute("select sum(harga_menu*kuantitas_pesanan) from keranjang as k inner join menu as m where k.ID_menu = m.ID_menu") 
+                harga_total = pesan.fetchone()[0]
+                timestamp = datetime.now()
+                timestamp = timestamp.strftime('%Y-%m-%d %H:%M:%S')
+                nama = nama.replace(" ","")
+                Values = f"({nomeja}, '{nama}', {harga_total}, '{timestamp}')"
+                pesan.execute(f"insert into DetailPesanan(nomor_meja, nama_pelanggan, harga_total, timestamp) values " + Values)
+                self.origin.mydb.commit()
+                pesan.execute(f"select ID_pesanan from DetailPesanan ORDER BY ID_pesanan DESC LIMIT 1")
+                ID_pesanan = pesan.fetchone()[0]
+                self.origin.Pesan(ID_pesanan)
+                self.origin.DetailPesanan()
         
     def TambahMenu(self, ID_keranjang, ID_menu):
         keranjang = self.origin.mydb.cursor(buffered = True)
