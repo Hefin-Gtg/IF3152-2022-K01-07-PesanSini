@@ -6,19 +6,18 @@ class EditKeranjangPage():
         self.master = master
         self.origin = pageManager
 
-    def HapusKeranjang(self, ID_keranjang, ID_menu, kuantitas_pesanan):
-        MsgBox = messagebox.askquestion ('Hapus Menu','Hapus menu dari keranjang?',icon = 'warning')
-        if MsgBox == 'yes':
-            menu = self.origin.mydb.cursor(buffered = True)
-            menu.execute(f"update menu set stok_menu = stok_menu + {kuantitas_pesanan} where ID_menu = {ID_menu}")
-            self.origin.mydb.commit()
-            ID_keranjang = int(ID_keranjang)
-            keranjang = self.origin.mydb.cursor(buffered = True)
-            keranjang.execute(f"delete from keranjang where ID_keranjang={ID_keranjang}")
-            self.origin.mydb.commit()
+    def HapusKeranjang(self, ID_menu):
+        menu = self.origin.mydb.cursor(buffered = True)
+        menu.execute(f"select kuantitas_pesanan from keranjang where ID_menu = {ID_menu}")
+        kuantitas_pesanan = menu.fetchone()[0]
+        menu.execute(f"update menu set stok_menu = stok_menu + {kuantitas_pesanan} where ID_menu = {ID_menu}")
+        self.origin.mydb.commit()
+        keranjang = self.origin.mydb.cursor(buffered = True)
+        keranjang.execute(f"delete from keranjang where ID_menu={ID_menu}")
+        self.origin.mydb.commit()
 
-    def TambahKeranjangBaru(self, text):
-        ID_menu = int(text)
+    def TambahKeranjangBaru(self, ID_menu):
+        ID_menu = int(ID_menu)
         kuantitas_pesanan = 1
         Values = f"({ID_menu}, {kuantitas_pesanan})"
         keranjang = self.origin.mydb.cursor(buffered = True)
@@ -47,14 +46,15 @@ class EditKeranjangPage():
         self.origin.mydb.commit()
 
     def DataPemesan(self, nama, nomeja):
-        if int(nomeja) > 20 or int(nomeja) < 0:
-            messagebox.showinfo("Data yang dimasukkan tidak benar", "Silakan masukkan nomor meja 0-20")
+        if int(nomeja) > 20 or int(nomeja) < 0 or nama.replace(" ","") =="" :
+            messagebox.showinfo("Data yang dimasukkan tidak benar", "Silakan masukkan nomor meja 0-20 atau silakan masukkan nama Anda")
         else:
             pesan =  self.origin.mydb.cursor(buffered = True)
             pesan.execute("select sum(harga_menu*kuantitas_pesanan) from keranjang as k inner join menu as m where k.ID_menu = m.ID_menu") 
             harga_total = pesan.fetchone()[0]
             timestamp = datetime.now()
             timestamp = timestamp.strftime('%Y-%m-%d %H:%M:%S')
+            nama = nama.replace(" ","")
             Values = f"({nomeja}, '{nama}', {harga_total}, '{timestamp}')"
             pesan.execute(f"insert into DetailPesanan(nomor_meja, nama_pelanggan, harga_total, timestamp) values " + Values)
             self.origin.mydb.commit()
@@ -73,13 +73,15 @@ class EditKeranjangPage():
             messagebox.showinfo("Stok habis", "Stok habis, silakan pesan produk lainnya.")
         
     
-    def KurangMenu(self, ID_keranjang, ID_menu, kuantitas_pesanan):
+    def KurangMenu(self, ID_keranjang, ID_menu):
         keranjang = self.origin.mydb.cursor(buffered = True)
+        keranjang.execute(f"select kuantitas_pesanan from keranjang where ID_menu = {ID_menu}")
+        kuantitas_pesanan = keranjang.fetchone()[0]
         if kuantitas_pesanan > 1:
-            keranjang.execute(f"update keranjang set kuantitas_pesanan =kuantitas_pesanan - 1 where ID_keranjang = {ID_keranjang}")
+            keranjang.execute(f"update keranjang set kuantitas_pesanan = kuantitas_pesanan - 1 where ID_keranjang = {ID_keranjang}")
             self.origin.mydb.commit()
         else:
-            self.HapusKeranjang(ID_keranjang, ID_menu, kuantitas_pesanan)
+            self.HapusKeranjang(ID_menu)
         self.TambahStok(ID_menu)
 
     def TambahStok(self, ID_menu):

@@ -191,7 +191,7 @@ class KeranjangPage(tk.Frame):
                 image =self.button_min,
                 borderwidth=0,
                 highlightthickness=0,
-                command= lambda ID_keranjang = ID_keranjang, ID_menu = ID_menu, kuantitas_pesanan = kuantitas_pesanan: self._on_click_minus(ID_keranjang, ID_menu, kuantitas_pesanan),
+                command= lambda ID_keranjang = ID_keranjang, ID_menu = ID_menu: self._on_click_minus(ID_keranjang, ID_menu),
                 relief="flat"
             )
             self.newCanvas.create_window(
@@ -231,7 +231,7 @@ class KeranjangPage(tk.Frame):
                 borderwidth=0,
                 highlightthickness=0,
                 text = ID_menu,
-                command=lambda ID_keranjang = ID_keranjang, ID_menu= ID_menu, kuantitas_pesanan=kuantitas_pesanan: self.handle_delete(ID_keranjang, ID_menu, kuantitas_pesanan),
+                command=lambda ID_menu= ID_menu: self.handle_delete( ID_menu),
                 relief="flat"
             )
 
@@ -273,10 +273,12 @@ class KeranjangPage(tk.Frame):
         self.origin.TambahMenu(ID_keranjang, ID_menu)
         self.origin.Keranjang()
     
-    def _on_click_minus(self, ID_keranjang, ID_menu, kuantitas_pesanan):
-        self.origin.KurangMenu(ID_keranjang, ID_menu, kuantitas_pesanan)
+    def _on_click_minus(self, ID_keranjang, ID_menu):
+        self.origin.KurangMenu(ID_keranjang, ID_menu)
         self.origin.Keranjang()
     
-    def handle_delete(self, ID_keranjang, ID_menu, kuantitas_pesanan):
-        self.origin.HapusKeranjang(ID_keranjang, ID_menu, kuantitas_pesanan)
-        self.origin.Keranjang()
+    def handle_delete(self, ID_menu):
+        MsgBox = messagebox.askquestion ('Hapus Menu','Hapus menu dari keranjang?',icon = 'warning')
+        if MsgBox == 'yes':
+            self.origin.HapusKeranjang( ID_menu)
+            self.origin.Keranjang()

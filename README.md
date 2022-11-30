@@ -25,8 +25,8 @@ Pengunjung dapat melihat menu yang sudah ditambahkan ke keranjang dengan menekan
 ## Cara Menjalankan Aplikasi
 1. Ubah Password MySQL pada `pageManager.py` sesuai dengan Password MySQL pengguna.
 2. Import `PesanSini.sql` ke database lokal pengguna.
-2. Jalankan program `main.py` dengan menjalankan perintah `py src/main.py` pada *command prompt*.
-3. Jika berhasil dijalankan, maka akan terdapat tampilan *window* pada komputer.
+3. Jalankan program `main.py` dengan menjalankan perintah `py src/main.py` pada *command prompt*.
+4. Jika berhasil dijalankan, maka akan terdapat tampilan *window* pada komputer.
 
 ## Daftar Modul yang Diimplementasi
 ### 1. PesanSini
