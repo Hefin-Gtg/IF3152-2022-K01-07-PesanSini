@@ -272,7 +272,7 @@ class MenuPage(tk.Frame):
                 image =self.button_tambahkankekeranjang,
                 borderwidth=0,
                 highlightthickness=0,
-                command= lambda ID_Menu = ID_menu : self._on_click_TambahkanKeKeranjang(ID_Menu),
+                command= lambda ID_Menu = ID_menu : self.TambahKeKeranjang(ID_Menu),
                 relief="flat"
             )
             self.newCanvas.create_window(
@@ -337,5 +337,5 @@ class MenuPage(tk.Frame):
         self.kategori = 'paket'
         self.createScrollableCanvas()
 
-    def _on_click_TambahkanKeKeranjang(self, ID_menu):
+    def TambahKeKeranjang(self, ID_menu):
         self.origin.TambahKeranjang(ID_menu)
