@@ -162,7 +162,7 @@ class KonfirmasiPesananPage(tk.Frame):
             image=self.button_bayar,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self._on_click_DetailPesanan(),
+            command=lambda: self.GetDetailPesanan(),
             relief="flat"
         )
         self.bayar.place(
@@ -192,7 +192,7 @@ class KonfirmasiPesananPage(tk.Frame):
 
         self.makanan = PhotoImage(
             file=relative_to_assets("makanan1.png"))
-        
+    
         menu = self.origin.mydb.cursor(buffered = True)
         menu.execute("select nama_menu, k.ID_menu, harga_menu, kuantitas_pesanan from keranjang as k inner join menu as m where k.ID_menu = m.ID_menu" )
         
@@ -271,7 +271,7 @@ class KonfirmasiPesananPage(tk.Frame):
     def _on_click_Keranjang(self):
         self.origin.Keranjang()
         
-    def _on_click_DetailPesanan(self):
+    def GetDetailPesanan(self):
         try:
             nama = str(self.Nama.get())
             nomeja = str(self.Nomeja.get())
