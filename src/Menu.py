@@ -272,7 +272,7 @@ class MenuPage(tk.Frame):
                 image =self.button_tambahkankekeranjang,
                 borderwidth=0,
                 highlightthickness=0,
-                command= lambda ID_Menu = ID_menu : self.TambahKeKeranjang(ID_Menu),
+                command= lambda ID_menu = ID_menu : self.TambahKeKeranjang(ID_menu),
                 relief="flat"
             )
             self.newCanvas.create_window(

@@ -83,7 +83,9 @@ class EditKeranjangPage():
             keranjang.execute(f"update keranjang set kuantitas_pesanan = kuantitas_pesanan - 1 where ID_keranjang = {ID_keranjang}")
             self.origin.mydb.commit()
         else:
-            self.HapusKeranjang(ID_menu)
+            MsgBox = messagebox.askquestion ('Hapus Menu','Hapus menu dari keranjang?',icon = 'warning')
+            if MsgBox == 'yes':
+                self.HapusKeranjang(ID_menu)
         self.TambahStok(ID_menu)
 
     def TambahStok(self, ID_menu):

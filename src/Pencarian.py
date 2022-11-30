@@ -95,8 +95,8 @@ class PencarianPage(tk.Frame):
     def _on_click_Deskripsi(self, ID_menu):
         self.origin.Deskripsi(ID_menu)
 
-    def _on_click_TambahkanKeKeranjang(self, text):
-        self.origin.TambahKeranjang(text)
+    def _on_click_TambahkanKeKeranjang(self, ID_menu):
+        self.origin.TambahKeranjang(ID_menu)
         
     def searchmenu(self):
         self.createScrollableCanvas()
@@ -162,7 +162,7 @@ class PencarianPage(tk.Frame):
                 image =self.button_tambahkankekeranjang,
                 borderwidth=0,
                 highlightthickness=0,
-                command= lambda ID_Menu = ID_menu : self._on_click_TambahkanKeKeranjang(ID_Menu),
+                command= lambda ID_menu = ID_menu : self._on_click_TambahkanKeKeranjang(ID_menu),
                 relief="flat"
             )
             self.newCanvas.create_window(

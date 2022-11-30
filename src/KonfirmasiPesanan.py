@@ -234,7 +234,7 @@ class KonfirmasiPesananPage(tk.Frame):
                 anchor="nw",
                 text=kuantitas_pesanan,
                 fill="#FFFFFF",
-                font=("MontserratRoman SemiBold", 25 * -1)
+                font=("MontserratRoman SemiBold", 15 * -1)
             )
 
             self.newCanvas.create_text(
