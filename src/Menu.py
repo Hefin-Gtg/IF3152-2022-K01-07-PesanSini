@@ -1,7 +1,6 @@
 from pathlib import Path
 import tkinter as tk
 from tkinter import *
-# import EditKeranjang
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("../img/Menu")

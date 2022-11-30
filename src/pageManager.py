@@ -9,11 +9,11 @@ class pageManager():
             self.mydb = mysql.connector.connect(
                 host= "localhost", 
                 user="root", 
-                password="Password", 
+                password="peachytrashy2", 
                 database = "PesanSini"
             )
         except:
-            return False
+            return None
             
         self.user = None
         self.window = Tk()
@@ -55,9 +55,9 @@ class pageManager():
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
         self.page.TambahKeranjang(text)
 
-    def HapusKeranjang(self, ID_keranjang, ID_menu, kuantitas_pesanan):
+    def HapusKeranjang(self, ID_menu):
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
-        self.page.HapusKeranjang(ID_keranjang, ID_menu, kuantitas_pesanan)
+        self.page.HapusKeranjang(ID_menu)
         
     def Pesan(self, ID_pesanan):
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
@@ -71,7 +71,7 @@ class pageManager():
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
         self.page.TambahMenu(ID_keranjang, ID_menu)
 
-    def KurangMenu(self, ID_keranjang, ID_menu, kuantitas_pesanan):
+    def KurangMenu(self, ID_keranjang, ID_menu):
         self.page = EditKeranjang.EditKeranjangPage(master=self.window, pageManager=self)
-        self.page.KurangMenu(ID_keranjang, ID_menu, kuantitas_pesanan)
+        self.page.KurangMenu(ID_keranjang, ID_menu)
     
