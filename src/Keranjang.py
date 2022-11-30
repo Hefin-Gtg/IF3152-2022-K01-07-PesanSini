@@ -95,7 +95,7 @@ class KeranjangPage(tk.Frame):
             image=self.button_pesan,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self._on_click_KonfirmasiPesanan(),
+            command=lambda: self.GetKonfirmasiPesanan(),
             relief="flat"
         )
         self.pesan.place(
@@ -261,7 +261,7 @@ class KeranjangPage(tk.Frame):
     def _on_click_Menu(self):
         self.origin.Menu()
     
-    def _on_click_KonfirmasiPesanan(self):
+    def GetKonfirmasiPesanan(self):
         pesan =  self.origin.mydb.cursor(buffered = True)
         pesan.execute("select * from keranjang")
         if pesan.rowcount != 0:
